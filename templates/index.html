@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>Dự đoán Bệnh Da Liễu</title>
+</head>
+<body>
+    <h1>Dự đoán Bệnh Da Liễu bằng Random Forest</h1>
+    <form method="POST">
+        <div>
+            <div>
+                {% if predicted_class %}
+                    <p>Kết quả dự đoán: {{ predicted_class }}</p>
+                {% endif %}
+            </div>
+
+            <label for="family_history">Tiền sử gia đình:</label>
+            <select name="family_history" required>
+                <option value="0">Không</option>
+                <option value="1">Có</option>
+            </select><br>
+
+            <label for="age">Tuổi:</label>
+            <input type="number" name="age" step="1" min="0" required><br>
+
+            {% for column in columns %}
+            {% if column != 'tuoi' and column != 'class' and column != 'family_history' and column != 'age'%}
+                    <label>{{ column }}:</label>
+                    <select name="{{ column }}" required>
+                        <option value="0">Không có</option>
+                        <option value="1">mức 1</option>
+                        <option value="2">mức 2</option>
+                        <option value="3">mức 3</option>
+                    </select><br>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <button type="submit">Dự đoán</button>
+    </form>
+</body>
+</html>
